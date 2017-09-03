@@ -1,0 +1,6 @@
+.vs/
+CafeLib/CafeLib.Runnable/obj/Debug/CafeLib.Runnable.csproj.CoreCompileInputs.cache
+*.user
+bin/
+obj/
+packages/
