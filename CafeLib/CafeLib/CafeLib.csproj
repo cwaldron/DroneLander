@@ -44,7 +44,8 @@
     <Compile Include="EventMessaging\IEventMessage.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
-    <Compile Include="Extensions\NonNullable.cs" />
+    <Compile Include="Support\NonNullable.cs" />
+    <Compile Include="Extensions\PageExtensions.cs" />
     <Compile Include="Extensions\ServiceProviderExtensions.cs" />
     <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
@@ -73,7 +74,7 @@
     <Compile Include="ViewModels\ObservableModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\RunnableViewModel.cs" />
-    <Compile Include="Views\PageExtensions.cs" />
+    <Compile Include="Views\CafeToolbarItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
