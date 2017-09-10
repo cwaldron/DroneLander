@@ -1,17 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using CafeLib.Services;
-using Xamarin.Forms;
 
 namespace CafeLib.ViewModels
 {
-    public abstract class ObservableModel<T> : ObservableBase, IObservableModel<T> where T : class, new()
+    /// <summary>
+    /// ObservableModel implemenation class.
+    /// </summary>
+    /// <typeparam name="T">serialization type</typeparam>
+    public abstract class ObservableModel<T> : ObservableBase, ISerializableModel<T>
     {
-        public abstract T Deserialize(string data);
+        protected ObservableModel()
+        {
+            PropertyChanged += ObservableModel_PropertyChanged;
+        }
 
-        public abstract string Serialize();
+        public bool IsDirty
+        {
+            get;
+            protected set;
+        }
+
+        protected virtual void ObservableModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            IsDirty = true;
+        }
+
+        public virtual void Deserialize(T data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public abstract T Serialize();
+
+        /// <summary>
+        /// Reset model data to default.
+        /// </summary>
+        public virtual void Reset()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

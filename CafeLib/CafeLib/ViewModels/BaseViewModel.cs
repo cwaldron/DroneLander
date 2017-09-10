@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using CafeLib.Services;
 using Xamarin.Forms;
+using CafeLib.Services;
 
 namespace CafeLib.ViewModels
 {
@@ -12,8 +14,8 @@ namespace CafeLib.ViewModels
         private string _title;
         public string Title
         {
-            get { return _title; }
-            set { SetValue(ref _title, value); }
+            get => _title;
+            set => SetValue(ref _title, value);
         }
 
         protected INavigationService Navigation => ServiceProvider.Resolve<INavigationService>();
@@ -21,6 +23,21 @@ namespace CafeLib.ViewModels
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Bind view model to associated page.
+        /// </summary>
+        protected void Bind()
+        {
+            // Obtain the page.
+            var page = GetPage();
+
+            // Clear existing binding context.
+            page.BindingContext = null;
+
+            // Bind view model to page.
+            page.BindingContext = this;
+        }
 
         /// <summary>
         /// Displays an alert on the page.
@@ -37,29 +54,61 @@ namespace CafeLib.ViewModels
         }
 
         /// <summary>
-        /// Displays an alert on the page.
+        /// Displays an alert (simple question) on the page.
         /// </summary>
         /// <param name="title">title</param>
         /// <param name="message">message</param>
-        /// <param name="ok">ok text</param>
-        /// <param name="cancel">cancellation text</param>
-        public async Task<bool> DisplayAlert(string title, string message, string ok, string cancel)
+        /// <param name="ok">OK</param>
+        /// <param name="cancel">cancel</param>
+        // ReSharper disable once MethodOverloadWithOptionalParameter
+        public async Task<bool> DisplayConfirm(string title, string message, string ok = "OK", string cancel = "Cancel")
         {
-            var complete = new TaskCompletionSource<bool>();
+            var completed = new TaskCompletionSource<bool>();
+
             Device.BeginInvokeOnMainThread(async () =>
             {
                 var answer = await Application.Current.MainPage.DisplayAlert(title, message, ok, cancel);
-                complete.SetResult(answer);
+                completed.SetResult(answer);
             });
 
-            return await complete.Task;
+            return await completed.Task;
         }
 
         /// <summary>
-        /// Get the associated page.
+        /// Displays an action sheet (list of buttons) on the page, asking for user input.
+        /// </summary>
+        /// <param name="title">dialog title</param>
+        /// <param name="cancel">cancellation string</param>
+        /// <param name="destroy">destroy string</param>
+        /// <param name="options">option list</param>
+        /// <returns></returns>
+        public async Task<string> DisplayActionSheet(string title, string cancel, string destroy, IEnumerable<string> options)
+        {
+            var completed = new TaskCompletionSource<string>();
+
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                var answer = await Application.Current.MainPage.DisplayActionSheet(title, cancel, destroy, options.ToArray());
+                completed.SetResult(answer);
+            });
+
+            return await completed.Task;
+        }
+
+        /// <summary>
+        /// Obtain the page associated with the view model.
+        /// </summary>
+        /// <returns>page</returns>
+        protected Page GetPage()
+        {
+            return ServiceProvider.Resolve<IPageService>().ResolvePage(this);
+        }
+
+        /// <summary>
+        /// Obtain assoicated page casted to the requested page type.
         /// </summary>
         /// <typeparam name="T">page type</typeparam>
-        /// <returns></returns>
+        /// <returns>page</returns>
         protected T GetPage<T>() where T : Page
         {
             return (T)ServiceProvider.Resolve<IPageService>().ResolvePage(this);
@@ -71,8 +120,21 @@ namespace CafeLib.ViewModels
         /// <param name="action">action</param>
         protected virtual async Task RunOnMainThread(Action action)
         {
-            Device.BeginInvokeOnMainThread(action);
-            await Task.FromResult(0);
+            var completed = new TaskCompletionSource<bool>();
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                try
+                {
+                    action?.Invoke();
+                    completed.SetResult(true);
+                }
+                catch (Exception ex)
+                {
+                    completed.SetException(ex);
+                }
+            });
+
+            await completed.Task;
         }
 
         #endregion

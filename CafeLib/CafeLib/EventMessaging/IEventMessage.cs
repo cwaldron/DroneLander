@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CafeLib.Services
+namespace CafeLib.EventMessaging
 {
     public interface IEventMessage
     {
