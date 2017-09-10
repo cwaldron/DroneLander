@@ -12,6 +12,7 @@ namespace CafeLib.ViewModels
 
         #endregion
 
+
         #region Methods
 
         /// <summary>
