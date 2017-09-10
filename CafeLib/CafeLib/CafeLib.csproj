@@ -42,7 +42,11 @@
     <Compile Include="Diagnostics\ErrorLevel.cs" />
     <Compile Include="EventMessaging\EventMessage.cs" />
     <Compile Include="EventMessaging\IEventMessage.cs" />
+    <Compile Include="Extensions\CollectionExtensions.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\NonNullable.cs" />
     <Compile Include="Extensions\ServiceProviderExtensions.cs" />
+    <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
