@@ -30,7 +30,7 @@ namespace CafeLib.Services
         public Guid Subscribe<T>(Action<T> action) where T : IEventMessage
         {
             var subscribers = _magazine.GetOrAdd(typeof(T), new ConcurrentDictionary<Guid, object>());
-            var key = new Guid();
+            var key = Guid.NewGuid();
             subscribers.TryAdd(key, action);
             return key;
         }
@@ -90,13 +90,10 @@ namespace CafeLib.Services
                 var subscribers = _magazine[typeof(T)];
                 foreach (KeyValuePair<Guid, object> subscriber in subscribers)
                 {
-                    object value;
-                    subscribers.TryRemove(subscriber.Key, out value);
-
+                    subscribers.TryRemove(subscriber.Key, out _);
                 }
 
-                ConcurrentDictionary<Guid, object> value2;
-                _magazine.TryRemove(typeof(T), out value2);
+                _magazine.TryRemove(typeof(T), out _);
             }
         }
 
@@ -112,12 +109,10 @@ namespace CafeLib.Services
             if (_magazine.ContainsKey(typeof(T)))
             {
                 var subscribers = _magazine[typeof(T)];
-                object value1;
-                subscribers.TryRemove(actionId, out value1);
+                subscribers.TryRemove(actionId, out _);
                 if (subscribers.Count == 0)
                 {
-                    ConcurrentDictionary<Guid, object> value2;
-                    _magazine.TryRemove(typeof(T), out value2);
+                    _magazine.TryRemove(typeof(T), out _);
                 }
             }
         }
