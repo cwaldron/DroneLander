@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using CafeLib.Extensions;
 using CafeLib.Support;
 using CafeLib.Support.Resolution;
 using CafeLib.ViewModels;

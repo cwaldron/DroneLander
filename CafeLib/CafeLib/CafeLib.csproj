@@ -42,6 +42,9 @@
     <Compile Include="Diagnostics\ErrorLevel.cs" />
     <Compile Include="EventMessaging\EventMessage.cs" />
     <Compile Include="EventMessaging\IEventMessage.cs" />
+    <Compile Include="Extensions\ServiceProviderExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Runnable\IRunnable.cs" />
     <Compile Include="Runnable\Runner.cs" />
@@ -55,7 +58,6 @@
     <Compile Include="Services\PropertyService.cs" />
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Services\ServiceProvider.cs" />
-    <Compile Include="Support\CafeExtensions.cs" />
     <Compile Include="Support\PageAttribute.cs" />
     <Compile Include="Support\Resolution\IResolver.cs" />
     <Compile Include="Support\Resolution\PageResolver.cs" />
