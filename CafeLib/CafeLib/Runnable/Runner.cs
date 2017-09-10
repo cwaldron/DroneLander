@@ -70,7 +70,7 @@ namespace CafeLib.Runnable
         #region Public Methods
 
         /// <summary>
-        /// Start the service.
+        /// Start the runner.
         /// </summary>
         public virtual async Task Start()
         {
@@ -87,7 +87,7 @@ namespace CafeLib.Runnable
         }
 
         /// <summary>
-        /// Stop the service.
+        /// Stop the runner.
         /// </summary>
         public virtual async Task Stop()
         {

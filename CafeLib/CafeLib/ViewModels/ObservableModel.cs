@@ -9,27 +9,40 @@ namespace CafeLib.ViewModels
     /// <typeparam name="T">serialization type</typeparam>
     public abstract class ObservableModel<T> : ObservableBase, ISerializableModel<T>
     {
+        /// <summary>
+        /// IsDirty indicator.
+        /// </summary>
+        public bool IsDirty { get; protected set; }
+
+        /// <summary>
+        /// ObservableModel constructor.
+        /// </summary>
         protected ObservableModel()
         {
             PropertyChanged += ObservableModel_PropertyChanged;
         }
 
-        public bool IsDirty
-        {
-            get;
-            protected set;
-        }
-
+        /// <summary>
+        /// ObservableModel_PropertyChanged event handler.
+        /// </summary>
         protected virtual void ObservableModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             IsDirty = true;
         }
 
+        /// <summary>
+        /// Deserialize data into an ObservableModel.
+        /// </summary>
+        /// <param name="data">serialized data</param>
         public virtual void Deserialize(T data)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Serialize ObservableModel.
+        /// </summary>
+        /// <returns>serialize data</returns>
         public abstract T Serialize();
 
         /// <summary>

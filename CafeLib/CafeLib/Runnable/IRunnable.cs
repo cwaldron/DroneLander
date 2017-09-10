@@ -8,8 +8,21 @@ namespace CafeLib.Runnable
     /// </summary>
     public interface IRunnable : IDisposable
     {
-        Task Start();
-        Task Stop();
+        /// <summary>
+        /// Indicates the runnable object is running.
+        /// </summary>
         bool IsRunning { get; }
+
+        /// <summary>
+        /// Start runnable object.
+        /// </summary>
+        /// <returns>task</returns>
+        Task Start();
+
+        /// <summary>
+        /// Stop runnable object.
+        /// </summary>
+        /// <returns>task</returns>
+        Task Stop();
     }
 }

@@ -1,6 +1,5 @@
 ﻿using CafeLib.Diagnostics;
 using CafeLib.EventMessaging;
-using CafeLib.Services;
 
 namespace CafeLib.Runnable
 {
