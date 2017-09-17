@@ -12,7 +12,6 @@ namespace CafeLib.ViewModels
 
         #endregion
 
-
         #region Methods
 
         /// <summary>
@@ -34,7 +33,9 @@ namespace CafeLib.ViewModels
         protected bool SetValue<T>(ref T backingField, T value, [CallerMemberName] string propertyName = null)
         {
             if (EqualityComparer<T>.Default.Equals(backingField, value))
+            {
                 return false;
+            }
 
             backingField = value;
 

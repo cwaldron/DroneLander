@@ -23,6 +23,10 @@ namespace CafeLib.Services
 
         #region Constructors
 
+        /// <summary>
+        /// Page service constructor.
+        /// </summary>
+        /// <param name="entryType">type used to obtain application assembly</param>
         public PageService(Type entryType)
         {
             _appAssembly = entryType.GetTypeInfo().Assembly;
@@ -75,34 +79,14 @@ namespace CafeLib.Services
         /// <param name="viewModel">view model</param>
         /// <param name="animate"></param>
         /// <returns>true if successful otherwise false</returns>
-        public async Task<bool> PushAsync(BaseViewModel viewModel, bool animate=false)
+        public async Task<bool> PushAsync(BaseViewModel viewModel, bool animate = false)
         {
             var page = ResolvePage(viewModel);
             if (page == null) return false;
 
             page.SetViewModel(viewModel);
-            await PushAsync(page, animate);
-            return true;
-        }
-
-        /// <summary>
-        /// Push async navigation.
-        /// </summary>
-        /// <param name="page"></param>
-        /// <param name="animate"></param>
-        public async Task PushAsync(Page page, bool animate=false)
-        {
             await Application.Current.MainPage.Navigation.PushAsync(page, animate);
-        }
-
-        /// <summary>
-        /// Pop async navigation.
-        /// </summary>
-        /// <param name="animate"></param>
-        /// <returns>page</returns>
-        public async Task<Page> PopAsync(bool animate=false)
-        {
-            return await Application.Current.MainPage.Navigation.PopAsync(animate);
+            return true;
         }
 
         /// <summary>
@@ -114,26 +98,6 @@ namespace CafeLib.Services
         {
             var page = await Application.Current.MainPage.Navigation.PopAsync(animate);
             return page.GetViewModel<T>();
-        }
-
-    /// <summary>
-    /// Resolves page associasted with the viewmodel.
-    /// </summary>
-    /// <param name="viewModelType">view model type</param>
-    /// <returns>bounded page</returns>
-    public Page ResolvePage(Type viewModelType)
-        {
-            if (!viewModelType.GetTypeInfo().IsSubclassOf(typeof(BaseViewModel)))
-            {
-                throw new ArgumentException($"{nameof(viewModelType)} is not a type of BaseViewModel");
-            }
-
-            // Leave if no page resolver exist for this view model type.
-            if (!_pageResolvers.ContainsKey(viewModelType)) return null;
-
-            // Resolve the page.
-            var pageResolver = _pageResolvers[viewModelType];
-            return (Page)pageResolver.Resolve(pageResolver.GetResolveType());
         }
 
         /// <summary>
@@ -148,11 +112,6 @@ namespace CafeLib.Services
             page.BindingContext = viewModel;
 
             return page;
-        }
-
-        public Page ResolvePage<T>() where T : BaseViewModel
-        {
-            return ResolvePage(typeof(T));
         }
 
         #endregion
@@ -197,6 +156,26 @@ namespace CafeLib.Services
             }
 
             return pageType;
+        }
+
+        /// <summary>
+        /// Resolves page associasted with the viewmodel.
+        /// </summary>
+        /// <param name="viewModelType">view model type</param>
+        /// <returns>bounded page</returns>
+        private Page ResolvePage(Type viewModelType)
+        {
+            if (!viewModelType.GetTypeInfo().IsSubclassOf(typeof(BaseViewModel)))
+            {
+                throw new ArgumentException($"{nameof(viewModelType)} is not a type of BaseViewModel");
+            }
+
+            // Leave if no page resolver exist for this view model type.
+            if (!_pageResolvers.ContainsKey(viewModelType)) return null;
+
+            // Resolve the page.
+            var pageResolver = _pageResolvers[viewModelType];
+            return (Page)pageResolver.Resolve(pageResolver.GetResolveType());
         }
 
         #endregion

@@ -24,13 +24,13 @@ namespace CafeLib.ViewModels
 
         #region Methods
 
-        public async Task Start()
+        public virtual async Task Start()
         {
             _cancellationSource = new CancellationTokenSource();
             await Task.FromResult(0);
         }
 
-        public async Task Stop()
+        public virtual async Task Stop()
         {
             _cancellationSource.Cancel();
             await Task.FromResult(0);
@@ -84,6 +84,5 @@ namespace CafeLib.ViewModels
         }
 
         #endregion
-
     }
 }
