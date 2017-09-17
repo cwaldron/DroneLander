@@ -18,14 +18,8 @@ namespace CafeLib.Services
         /// <summary>
         /// Resolves the page for the view model
         /// </summary>
-        /// <returns></returns>
-        Page ResolvePage<T>() where T : BaseViewModel;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
+        /// <typeparam name="T">BaseViewModel</typeparam>
+        /// <returns>page</returns>
         Page ResolvePage<T>(T viewModel) where T : BaseViewModel;
         
         /// <summary>

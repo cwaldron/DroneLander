@@ -15,25 +15,9 @@ namespace CafeLib.Services
     {
         #region Private Members
 
-        private readonly Assembly _entryAssembly;
+        private readonly Assembly _appAssembly;
         private readonly Dictionary<Type, ViewModelResolver> _viewModelResolvers;
         private readonly Dictionary<Type, PageResolver> _pageResolvers;
-
-        public IReadOnlyList<Page> ModalStack
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public IReadOnlyList<Page> NavigationStack
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
 
         #endregion
 
@@ -41,7 +25,7 @@ namespace CafeLib.Services
 
         public PageService(Type entryType)
         {
-            _entryAssembly = entryType.GetTypeInfo().Assembly;
+            _appAssembly = entryType.GetTypeInfo().Assembly;
             _viewModelResolvers = new Dictionary<Type, ViewModelResolver>();
             _pageResolvers = new Dictionary<Type, PageResolver>();
         }
@@ -180,7 +164,7 @@ namespace CafeLib.Services
         /// </summary>
         private void RegisterViewModels()
         {
-            var viewModelTypeInfos = _entryAssembly.CreatableTypes().Inherits(typeof(BaseViewModel).GetTypeInfo()).EndsWith("ViewModel");
+            var viewModelTypeInfos = _appAssembly.CreatableTypes().Inherits<BaseViewModel>().EndsWith("ViewModel");
 
             foreach (var viewModelTypeInfo in viewModelTypeInfos)
             {
@@ -195,20 +179,24 @@ namespace CafeLib.Services
         /// <summary>
         /// Find corresponding page type for a view model tyoe.
         /// </summary>
-        /// <param name="viewModelTypeInfo"></param>
-        /// <returns></returns>
-        private Type FindPageType(TypeInfo viewModelTypeInfo)
+        /// <param name="viewModelTypeInfo">view model type</param>
+        /// <returns>page type</returns>
+        private Type FindPageType(MemberInfo viewModelTypeInfo)
         {
+            Type pageType;
+
             var viewAttribute = viewModelTypeInfo.GetCustomAttributes<PageAttribute>().SingleOrDefault();
             if (viewAttribute != null)
             {
-                return viewAttribute.PageType;
+                pageType = viewAttribute.PageType;
             }
             else
             {
-                var viewTypeInfo = _entryAssembly.CreatableTypes().Inherits(typeof(Page).GetTypeInfo()).SingleOrDefault(x => x.Name + "Model" == viewModelTypeInfo.Name);
-                return viewTypeInfo?.AsType();
+                var viewTypeInfo = _appAssembly.CreatableTypes().Inherits<Page>().SingleOrDefault(x => x.Name + "Model" == viewModelTypeInfo.Name);
+                pageType = viewTypeInfo?.AsType();
             }
+
+            return pageType;
         }
 
         #endregion
