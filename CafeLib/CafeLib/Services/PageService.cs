@@ -7,7 +7,6 @@ using CafeLib.Extensions;
 using CafeLib.Support;
 using CafeLib.Support.Resolution;
 using CafeLib.ViewModels;
-using CafeLib.Views;
 using Xamarin.Forms;
 
 namespace CafeLib.Services
@@ -111,11 +110,22 @@ namespace CafeLib.Services
         }
 
         /// <summary>
-        /// Resolves page associasted with the viewmodel.
+        /// Pop async navigation.
         /// </summary>
-        /// <param name="viewModelType">view model type</param>
-        /// <returns>bounded page</returns>
-        public Page ResolvePage(Type viewModelType)
+        /// <param name="animate"></param>
+        /// <returns>page</returns>
+        public async Task<T> PopAsync<T>(bool animate = false) where T : BaseViewModel
+        {
+            var page = await Application.Current.MainPage.Navigation.PopAsync(animate);
+            return page.GetViewModel<T>();
+        }
+
+    /// <summary>
+    /// Resolves page associasted with the viewmodel.
+    /// </summary>
+    /// <param name="viewModelType">view model type</param>
+    /// <returns>bounded page</returns>
+    public Page ResolvePage(Type viewModelType)
         {
             if (!viewModelType.GetTypeInfo().IsSubclassOf(typeof(BaseViewModel)))
             {

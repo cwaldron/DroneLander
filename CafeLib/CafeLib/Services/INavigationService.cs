@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
 using CafeLib.ViewModels;
 
@@ -9,27 +8,18 @@ namespace CafeLib.Services
     public interface INavigationService : IServiceProvider
     {
         /// <summary>
-        /// 
+        /// Navigate to pushed view model.
         /// </summary>
-        /// <param name="viewModel"></param>
-        /// <param name="animate"></param>
+        /// <param name="viewModel">view model</param>
+        /// <param name="animate">transition animation flag</param>
         /// <returns></returns>
         Task<bool> PushAsync(BaseViewModel viewModel, bool animate=false);
 
         /// <summary>
-        /// 
+        /// Navigate back to popped view model
         /// </summary>
-        /// <param name="page"></param>
-        /// <param name="animate"></param>
-        /// <returns></returns>
-        Task PushAsync(Page page, bool animate=false);
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="animate"></param>
-        /// <returns></returns>
-        Task<Page> PopAsync(bool animate=false);
+        /// <param name="animate">transition animation flag</param>
+        /// <returns>page associated with view model</returns>
+        Task<T> PopAsync<T>(bool animate = false) where T : BaseViewModel;
     }
 }
