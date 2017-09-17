@@ -61,6 +61,18 @@ namespace CafeLib.Services
         #region Methods
 
         /// <summary>
+        /// Resolves viewmodel to is associated view.
+        /// </summary>
+        /// <typeparam name="T">type of BaseViewModel</typeparam>
+        /// <returns>bounded page</returns>
+        public Page BindViewModel<T>(T viewModel) where T : BaseViewModel
+        {
+            var page = ResolvePage(viewModel);
+            page.BindingContext = viewModel;
+            return page;
+        }
+
+        /// <summary>
         /// Display Alert 
         /// </summary>
         /// <param name="title"></param>

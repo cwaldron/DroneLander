@@ -9,7 +9,14 @@ namespace CafeLib.Services
     public interface IPageService : IServiceProvider, IAsyncInit<IPageService>
     {
         /// <summary>
-        /// 
+        /// Binds view model to associated page.
+        /// </summary>
+        /// <typeparam name="T">BaseViewModel type</typeparam>
+        /// <returns>page</returns>
+        Page BindViewModel<T>(T viewModel) where T : BaseViewModel;
+
+        /// <summary>
+        /// Resolves the page for the view model
         /// </summary>
         /// <returns></returns>
         Page ResolvePage<T>() where T : BaseViewModel;
