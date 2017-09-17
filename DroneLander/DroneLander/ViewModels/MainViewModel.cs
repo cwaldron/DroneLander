@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using CafeLib.Extensions;
 using CafeLib.Support;
 using CafeLib.ViewModels;
 using DroneLander.Common;
@@ -20,6 +21,7 @@ namespace DroneLander.ViewModels
             Thrust = ActiveLandingParameters.Thrust;
             FuelRemaining = CoreConstants.StartingFuel;
             IsActive = false;
+            ActivityPage.SetViewModel(this);
         }
 
         public MainPage ActivityPage => GetPage<MainPage>();

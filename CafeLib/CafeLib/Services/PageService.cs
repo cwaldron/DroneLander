@@ -16,7 +16,6 @@ namespace CafeLib.Services
         #region Private Members
 
         private readonly Assembly _appAssembly;
-        private readonly Dictionary<Type, ViewModelResolver> _viewModelResolvers;
         private readonly Dictionary<Type, PageResolver> _pageResolvers;
 
         #endregion
@@ -30,7 +29,6 @@ namespace CafeLib.Services
         public PageService(Type entryType)
         {
             _appAssembly = entryType.GetTypeInfo().Assembly;
-            _viewModelResolvers = new Dictionary<Type, ViewModelResolver>();
             _pageResolvers = new Dictionary<Type, PageResolver>();
         }
 
@@ -47,31 +45,6 @@ namespace CafeLib.Services
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Resolves viewmodel to is associated view.
-        /// </summary>
-        /// <typeparam name="T">type of BaseViewModel</typeparam>
-        /// <returns>bounded page</returns>
-        public Page BindViewModel<T>(T viewModel) where T : BaseViewModel
-        {
-            var page = ResolvePage(viewModel);
-            page.BindingContext = viewModel;
-            return page;
-        }
-
-        /// <summary>
-        /// Display Alert 
-        /// </summary>
-        /// <param name="title"></param>
-        /// <param name="message"></param>
-        /// <param name="ok"></param>
-        /// <param name="cancel"></param>
-        /// <returns></returns>
-        public async Task<bool> DisplayAlert(string title, string message, string ok, string cancel)
-        {
-            return await Application.Current.MainPage.DisplayAlert(title, message, ok, cancel);
-        }
 
         /// <summary>
         /// Navigate to page associated to the view model.
@@ -101,17 +74,25 @@ namespace CafeLib.Services
         }
 
         /// <summary>
-        /// Resolves viewmodel to is assocated view.
+        /// Resolves viewmodel to is associated view.
+        /// </summary>
+        /// <typeparam name="T">type of BaseViewModel</typeparam>
+        /// <returns>bounded page</returns>
+        public Page BindViewModel<T>(T viewModel) where T : BaseViewModel
+        {
+            var page = ResolvePage(viewModel);
+            page.BindingContext = viewModel;
+            return page;
+        }
+
+        /// <summary>
+        /// Resolves viewmodel to is associated view.
         /// </summary>
         /// <typeparam name="T">type of BaseViewModel</typeparam>
         /// <returns>bounded page</returns>
         public Page ResolvePage<T>(T viewModel) where T : BaseViewModel
         {
-            var page = ResolvePage(viewModel.GetType());
-
-            page.BindingContext = viewModel;
-
-            return page;
+            return ResolvePage(viewModel.GetType());
         }
 
         #endregion
@@ -127,10 +108,8 @@ namespace CafeLib.Services
 
             foreach (var viewModelTypeInfo in viewModelTypeInfos)
             {
-                // Get the view type.
                 var pageType = FindPageType(viewModelTypeInfo);
-                if (pageType == null || _viewModelResolvers.ContainsKey(viewModelTypeInfo.AsType())) continue;
-                _viewModelResolvers.Add(viewModelTypeInfo.AsType(), new ViewModelResolver(viewModelTypeInfo.AsType()));
+                if (pageType == null) continue;
                 _pageResolvers.Add(viewModelTypeInfo.AsType(), new PageResolver(pageType));
             }
         }
