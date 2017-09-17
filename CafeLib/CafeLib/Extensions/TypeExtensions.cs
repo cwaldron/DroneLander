@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -8,6 +9,40 @@ namespace CafeLib.Extensions
 {
     public static class TypeExtensions
     {
+        /// <summary>
+        /// Returns the type activator.
+        /// </summary>
+        /// <typeparam name="T">type</typeparam>
+        /// <param name="type">type object</param>
+        /// <returns>type activator</returns>
+        public static Func<T> GetActivator<T>(this Type type)
+        {
+            return (Func<T>)Expression.Lambda(Expression.New(GetDefaultConstructor(type))).Compile();
+        }
+
+        /// <summary>
+        /// Returns the type activator.
+        /// </summary>
+        /// <typeparam name="T">type</typeparam>
+        /// <param name="type">type object</param>
+        /// <returns>type activator</returns>
+        public static T CreateInstance<T>(this Type type)
+        {
+            return GetActivator<T>(type).Invoke();
+        }
+
+        /// <summary>
+        /// Gets the default constructor.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns>
+        ///     Default constructor if found otherwise null
+        /// </returns>
+        public static ConstructorInfo GetDefaultConstructor(this Type type)
+        {
+            return type.GetTypeInfo().DeclaredConstructors.FirstOrDefault(c => !c.GetParameters().Any());
+        }
+
         /// <summary>
         /// Determines anonymous type.
         /// </summary>

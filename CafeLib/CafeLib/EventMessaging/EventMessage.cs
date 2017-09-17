@@ -1,11 +1,10 @@
 ﻿using System;
-using CafeLib.Services;
 
 namespace CafeLib.EventMessaging
 {
     public abstract class EventMessage : IEventMessage
     {
-        public DateTime TimeStamp { get; }
+        public DateTime TimeStamp { get; protected set; }
 
         protected EventMessage()
         {

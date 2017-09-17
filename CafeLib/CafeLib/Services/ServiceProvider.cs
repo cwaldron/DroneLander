@@ -7,7 +7,7 @@ namespace CafeLib.Services
 {
     public sealed class ServiceProvider : SingletonBase<ServiceProvider>, IServiceProvider
     {
-        #region Member Variables
+        #region Private Variables
 
         private readonly Dictionary<string, object> _configuration;
         private readonly Dictionary<Type, Creator> _creators;
@@ -27,7 +27,7 @@ namespace CafeLib.Services
         /// <summary>
         /// ServiceProvider instance constructor.
         /// </summary>
-        public ServiceProvider()
+        private ServiceProvider()
         {
             // Create dictionaries.
             _configuration = new Dictionary<string, object>();
@@ -69,10 +69,20 @@ namespace CafeLib.Services
         /// <summary>
         /// Initialize service provider
         /// </summary>
+        public new static async Task InitAsync()
+        {
+            Register<IEventService>(x => new EventService());
+            Register<IPropertyService>(x => new PropertyService());
+            await Task.FromResult(0);
+        }
+
+        /// <summary>
+        /// Initialize service provider
+        /// </summary>
         /// <param name="bootstrapType"></param>
         public static async Task InitAsync(Type bootstrapType)
         {
-            Register<IEventService>(x => new EventService());
+            await InitAsync();
             Register<IPageService>(x => new PageService(bootstrapType));
             Register<INavigationService>(x => (INavigationService)Resolve<IPageService>());
             await Task.FromResult(0);

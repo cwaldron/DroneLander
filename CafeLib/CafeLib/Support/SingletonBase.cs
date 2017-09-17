@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CafeLib.Async;
+using CafeLib.Extensions;
 
 namespace CafeLib.Support
 {
@@ -57,7 +57,7 @@ namespace CafeLib.Support
                     lock (Mutex)
                     {
                         // Create the singleton object.
-                        _singleton = Activator.CreateInstance<T>();
+                        _singleton = typeof(T).CreateInstance<T>();
 
                         // Asynchronous initalization of singleton.
                         RunTask(_singleton.InitAsync);

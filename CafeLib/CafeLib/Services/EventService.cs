@@ -57,7 +57,7 @@ namespace CafeLib.Services
         }
 
         /// <summary>
-        /// Publish the specified message.
+        /// Publish the specified message asynchronously.
         /// </summary>
         /// <param name='message'>
         /// Message.
@@ -65,20 +65,20 @@ namespace CafeLib.Services
         /// <typeparam name='T'>
         /// Type of IEventMessage.
         /// </typeparam>
-        public async Task PublishAsync<T>(T message) where T : IEventMessage
+        public void PublishAsync<T>(T message) where T : IEventMessage
         {
             if (_magazine.ContainsKey(typeof(T)))
             {
                 var subscribers = _magazine[typeof(T)];
                 foreach (var subscriber in subscribers)
                 {
-                    await Task.Run(() => ((Action<T>)subscriber.Value)?.Invoke(message));
+                    Task.Run(() => ((Action<T>)subscriber.Value)?.Invoke(message));
                 }
             }
         }
 
         /// <summary>
-        /// Unsubscribe the specified handler.
+        /// Unsubscribe all specified handlers of type T.
         /// </summary>
         /// <typeparam name='T'>
         /// Type of IEventMessage.
@@ -98,7 +98,7 @@ namespace CafeLib.Services
         }
 
         /// <summary>
-        /// Unsubscribe the specified handler.
+        /// Unsubscribe the specified handler of type T and Guid identifier.
         /// </summary>
         /// <param name="actionId"></param>
         /// <typeparam name='T'>

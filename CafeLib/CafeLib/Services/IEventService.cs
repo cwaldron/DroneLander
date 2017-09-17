@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using CafeLib.EventMessaging;
 
 namespace CafeLib.Services
@@ -37,15 +36,12 @@ namespace CafeLib.Services
         /// <typeparam name='T'>
         /// Event message type parameter.
         /// </typeparam>
-        Task PublishAsync<T>(T message) where T : IEventMessage;
+        void PublishAsync<T>(T message) where T : IEventMessage;
 
 
         /// <summary>
-        /// Unsubscribe the specified handler.
+        /// Unsubscribe all specified handlers of type T.
         /// </summary>
-        /// <param name='action'>
-        /// Action.
-        /// </param>
         /// <typeparam name='T'>
         /// Event message type parameter.
         /// </typeparam>
@@ -53,11 +49,9 @@ namespace CafeLib.Services
 
 
         /// <summary>
-        /// Unsubscribe the specified handler.
+        /// Unsubscribe the specified handler of type T and Guid identifier.
         /// </summary>
-        /// <param name='action'>
-        /// Action.
-        /// </param>
+        /// <param name="actionId">action id</param>
         /// <typeparam name='T'>
         /// Event message type parameter.
         /// </typeparam>
