@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" Title="Drone Lander"
-             xmlns:local="clr-namespace:DroneLander" 
+             xmlns:local="clr-namespace:DroneLander"
+             xmlns:effects="clr-namespace:DroneLander.Effects;assembly=DroneLander"
              BackgroundImage="drone_lander_back.jpg"
              x:Class="DroneLander.MainPage">
 
@@ -13,13 +14,13 @@
 
         <StackLayout Padding="40,30">
             <Label Margin="0,16,0,0" Style="{DynamicResource CaptionLabelStyle}" Text="Altitude (meters)" />
-            <Label local:DigitalFontEffect.FontFileName="Digital" Style="{DynamicResource DisplayLabelStyle}" Text="{Binding Altitude, Converter={StaticResource DecimalDisplayConverter}}" />
+            <Label effects:DigitalFontEffect.FontFileName="Digital" Style="{DynamicResource DisplayLabelStyle}" Text="{Binding Altitude, Converter={StaticResource DecimalDisplayConverter}}" />
 
             <Label Margin="0,16,0,0" Style="{DynamicResource CaptionLabelStyle}" Text="Descent Rate (meters per second)" />
-            <Label local:DigitalFontEffect.FontFileName="Digital" Style="{DynamicResource DisplayLabelStyle}" Text="{Binding DescentRate, Converter={StaticResource DecimalDisplayConverter}}" />
+            <Label effects:DigitalFontEffect.FontFileName="Digital" Style="{DynamicResource DisplayLabelStyle}" Text="{Binding DescentRate, Converter={StaticResource DecimalDisplayConverter}}" />
 
             <Label Margin="0,16,0,0" Style="{DynamicResource CaptionLabelStyle}" Text="Thrust (Newtons)" />
-            <Label local:DigitalFontEffect.FontFileName="Digital" Style="{DynamicResource DisplayLabelStyle}" Text="{Binding Thrust, Converter={StaticResource DecimalDisplayConverter}}" />
+            <Label effects:DigitalFontEffect.FontFileName="Digital" Style="{DynamicResource DisplayLabelStyle}" Text="{Binding Thrust, Converter={StaticResource DecimalDisplayConverter}}" />
 
             <Label Margin="0,16,0,0" Style="{DynamicResource CaptionLabelStyle}" Text="Fuel Remaining" />
             <ProgressBar Progress="{Binding FuelRemaining}" />

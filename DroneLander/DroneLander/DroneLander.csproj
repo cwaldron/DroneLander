@@ -40,7 +40,7 @@
     </Compile>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Common\CoreConstants.cs" />
-    <Compile Include="Common\CoreConverters.cs" />
+    <Compile Include="Common\DecimalDisplayConverter.cs" />
     <Compile Include="Common\ObservableBase.cs" />
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Effects\DigitalFontEffect.cs" />

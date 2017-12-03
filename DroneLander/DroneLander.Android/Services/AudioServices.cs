@@ -1,15 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Android.Media;
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-
 using Xamarin.Forms;
 using DroneLander.Droid.Services;
 using DroneLander.Services;
@@ -22,10 +12,6 @@ namespace DroneLander.Droid.Services
         private MediaPlayer _mediaPlayer;
 
         public Action OnFinishedPlaying { get; set; }
-
-        public AudioService()
-        {
-        }
 
         public void AdjustVolume(double level)
         {
@@ -49,7 +35,7 @@ namespace DroneLander.Droid.Services
             }
             else
             {
-                var fullPath = "Sounds/engine.m4a";
+                const string fullPath = "Sounds/engine.m4a";
                 Android.Content.Res.AssetFileDescriptor afd = null;
 
                 try
@@ -58,6 +44,7 @@ namespace DroneLander.Droid.Services
                 }
                 catch (Exception)
                 {
+                    // ignored
                 }
 
                 if (afd != null)

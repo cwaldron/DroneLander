@@ -19,7 +19,7 @@ namespace DroneLander.Droid
             try
             {
                 control = Control as TextView;
-                Typeface font = Typeface.CreateFromAsset(Forms.Context.Assets, "Fonts/" + DroneLander.DigitalFontEffect.GetFontFileName(Element) + ".ttf");
+                Typeface font = Typeface.CreateFromAsset(Forms.Context.Assets, "Fonts/" + Effects.DigitalFontEffect.GetFontFileName(Element) + ".ttf");
                 control.Typeface = font;
             }
             catch (Exception)
@@ -33,9 +33,9 @@ namespace DroneLander.Droid
 
         protected override void OnElementPropertyChanged(PropertyChangedEventArgs args)
         {
-            if (args.PropertyName == DroneLander.DigitalFontEffect.FontFileNameProperty.PropertyName)
+            if (args.PropertyName == Effects.DigitalFontEffect.FontFileNameProperty.PropertyName)
             {
-                Typeface font = Typeface.CreateFromAsset(Forms.Context.ApplicationContext.Assets, "Fonts/" + DroneLander.DigitalFontEffect.GetFontFileName(Element) + ".ttf");
+                Typeface font = Typeface.CreateFromAsset(Forms.Context.ApplicationContext.Assets, "Fonts/" + Effects.DigitalFontEffect.GetFontFileName(Element) + ".ttf");
                 control.Typeface = font;
             }
         }

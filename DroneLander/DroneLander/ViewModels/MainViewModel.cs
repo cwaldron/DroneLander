@@ -5,6 +5,7 @@ using CafeLib.Extensions;
 using CafeLib.Support;
 using CafeLib.ViewModels;
 using DroneLander.Common;
+using DroneLander.Models;
 using Xamarin.Forms;
 
 namespace DroneLander.ViewModels
@@ -31,49 +32,49 @@ namespace DroneLander.ViewModels
         private double _altitude;
         public double Altitude
         {
-            get { return _altitude; }
-            set { SetValue(ref _altitude, value); }
+            get => _altitude;
+            set => SetValue(ref _altitude, value);
         }
 
         private double _descentRate;
         public double DescentRate
         {
-            get { return _descentRate; }
-            set { SetValue(ref _descentRate, value); }
+            get => _descentRate;
+            set => SetValue(ref _descentRate, value);
         }
 
         private double _velocity;
         public double Velocity
         {
-            get { return _velocity; }
-            set { SetValue(ref _velocity, value); }
+            get => _velocity;
+            set => SetValue(ref _velocity, value);
         }
 
         private double _fuel;
         public double Fuel
         {
-            get { return _fuel; }
-            set { SetValue(ref _fuel, value); }
+            get => _fuel;
+            set => SetValue(ref _fuel, value);
         }
 
         private double _fuelRemaining;
         public double FuelRemaining
         {
-            get { return _fuelRemaining; }
-            set { SetValue(ref _fuelRemaining, value); }
+            get => _fuelRemaining;
+            set => SetValue(ref _fuelRemaining, value);
         }
 
         private double _thrust;
         public double Thrust
         {
-            get { return this._thrust; }
-            set { SetValue(ref _thrust, value); }
+            get => _thrust;
+            set => SetValue(ref _thrust, value);
         }
 
         private double _throttle;
         public double Throttle
         {
-            get { return _throttle; }
+            get => _throttle;
             set
             {
                 SetValue(ref _throttle, value);
@@ -86,14 +87,14 @@ namespace DroneLander.ViewModels
         private string _actionLabel;
         public string ActionLabel
         {
-            get { return _actionLabel; }
-            set { SetValue(ref _actionLabel, value); }
+            get => _actionLabel;
+            set => SetValue(ref _actionLabel, value);
         }
 
         private bool _isActive;
         public bool IsActive
         {
-            get { return _isActive; }
+            get => _isActive;
             set
             {
                 SetValue(ref _isActive, value);
@@ -221,7 +222,10 @@ namespace DroneLander.ViewModels
                          );
                 }
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
 
         private async void ResetLanding()

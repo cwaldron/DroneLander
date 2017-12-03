@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 
-namespace DroneLander
+namespace DroneLander.Effects
 {
     public static class DigitalFontEffect
     {
@@ -16,17 +16,16 @@ namespace DroneLander
             view.SetValue(FontFileNameProperty, value);
         }
 
-        static void OnFileNameChanged(BindableObject bindable, object oldValue, object newValue)
+        private static void OnFileNameChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var view = bindable as View;
-            if (view == null)
+            if (!(bindable is View view))
             {
                 return;
             }
             view.Effects.Add(new FontEffect());
         }
 
-        class FontEffect : RoutingEffect
+        private class FontEffect : RoutingEffect
         {
             public FontEffect() : base("Xamarin.FontEffect")
             {
